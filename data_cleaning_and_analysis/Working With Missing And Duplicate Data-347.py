@@ -41,3 +41,28 @@ print(combined[dups])
 combined['COUNTRY'] = combined['COUNTRY'].str.upper()
 
 combined = combined.drop_duplicates(subset=(['COUNTRY', 'YEAR']))
+
+## 8. Handle Missing Values by Dropping Columns ##
+
+columns_to_drop = ['LOWER CONFIDENCE INTERVAL', 'STANDARD ERROR', 'UPPER CONFIDENCE INTERVAL', 'WHISKER HIGH', 'WHISKER LOW']
+
+combined = combined.drop(columns_to_drop, axis=1)
+missing = combined.isnull().sum()
+
+## 9. Handle Missing Values by Dropping Columns Continued ##
+
+combined = combined.dropna(thresh=159, axis=1)
+missing = combined.isnull().sum()
+
+## 11. Handling Missing Values with Imputation ##
+
+happiness_mean = combined['HAPPINESS SCORE'].mean()
+print(happiness_mean)
+
+combined['HAPPINESS SCORE UPDATED'] = combined['HAPPINESS SCORE'].fillna(happiness_mean)
+print(combined['HAPPINESS SCORE UPDATED'].mean())
+
+## 12. Dropping Rows ##
+
+combined = combined.dropna()
+missing = combined.isnull().sum()
