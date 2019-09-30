@@ -64,3 +64,44 @@ def first_10_matches(pattern):
 
 pattern = r"[Jj]ava[^Ss]"
 java_titles = titles[titles.str.contains(pattern)]
+
+
+## 9. Word Boundaries ##
+
+def first_10_matches(pattern):
+    all_matches = titles[titles.str.contains(pattern)]
+    first_10 = all_matches.head(10)
+    return first_10
+
+
+pattern = r"\b[Jj]ava\b"
+test = first_10_matches(pattern)
+java_titles = titles[titles.str.contains(pattern)]
+
+
+## 10. Matching at the Start and End of Strings ##
+
+pattern_beginning = r"^\[\w+\]"
+pattern_ending = "\[\w+\]$"
+
+beginning_count = titles.str.contains(pattern_beginning).sum()
+ending_count = titles.str.contains(pattern_ending).sum()
+
+## 11. Challenge: Using Flags to Modify Regex Patterns ##
+
+import re
+
+email_tests = pd.Series(['email', 'Email', 'e Mail', 'e mail', 'E-mail',
+              'e-mail', 'eMail', 'E-Mail', 'EMAIL'])
+
+pattern = r"e.?mail"
+other_pattern = r"e[\-\s]?mail"
+# test_mentions = email_tests.str.contains(pattern, flags=re.I).sum()
+
+def first_10(pattern):
+    matching_titles = titles[titles.str.contains(pattern, flags=re.I)]
+    first_10_rows = matching_titles.head(10)
+    return first_10_rows
+
+first_10_email = first_10(pattern)
+email_mentions = titles.str.contains(pattern, flags=re.I).sum()
