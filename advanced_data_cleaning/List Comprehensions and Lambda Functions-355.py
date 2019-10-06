@@ -92,3 +92,17 @@ top_5_titles = [d['title'] for d in hn_sorted_points[:5]]
 
 import pandas as pd
 hn_df = pd.DataFrame(hn_clean)
+
+## 11. Exploring Tags Using the Apply Function ##
+
+tags = hn_df['tags']
+
+four_tags = tags[tags.apply(len) == 4]
+
+## 12. Extracting Tags Using Apply with a Lambda Function ##
+
+# def extract_tag(l):
+#     return l[-1] if len(l) == 4 else None
+
+cleaned_tags = tags.apply(lambda l: l[-1] if len(l) == 4 else None)
+hn_df['tags'] = cleaned_tags
